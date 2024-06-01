@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>VR BAbyshowe</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <h2>Vihar Richa Babyshower</h2>
+    <button type="button" class="collapsible">Kids Performance</button>
+    <div class="content">
+      
+      <br />
+      <b>Dhiktana (Myshu & Rishu)</b><br />
+      <audio controls>
+        <source src="audio/dhiktana.mp3" type="audio/mp3">
+        not supported
+      </audio>
+      <hr />
+
+
+      <br />
+      <b>Aaja Nach Le (Myshu)</b><br />
+      <audio controls>
+        <source src="audio/aajanachle.mp3" type="audio/mp3">
+        not supported
+      </audio>
+      <hr />
+
+    </div>
+
+
+
+
+    <button type="button" class="collapsible">Sachi, Ankit Performance</button>
+    <div class="content">
+
+      <br />
+      <b>Khalasi & Thumkeshwari</b><br />
+      <audio controls>
+        <source src="audio/KhalasiThumkeshwari.mp3" type="audio/mp3">
+        not supported
+      </audio>
+      <hr />
+
+    </div>
+
+
+
+
+    <button type="button" class="collapsible">Skit</button>
+    <div class="content">
+
+      <br />
+      <b>(1) Drum Sound</b><br />
+      <audio controls>
+        <source src="audio/1_drum_sound.mp4" type="audio/mp4">
+        not supported
+      </audio>
+      <hr />
+
+      <br />
+      <b>(1) Imagination</b><br />
+      <audio controls>
+        <source src="audio/1_imagine.mp3" type="audio/mp3">
+        not supported
+      </audio>
+      <hr />
+
+      <br />
+      <b>(2) Dramatic Sound</b><br />
+      <audio controls>
+        <source src="audio/2_dramatic_sount.mp4" type="audio/mp4">
+        not supported
+      </audio>
+      <hr />
+
+      <br />
+      <b>(2) Imagination</b><br />
+      <audio controls>
+        <source src="audio/2_imaging.mp3" type="audio/mp3">
+        not supported
+      </audio>
+      <hr />
+
+      <br />
+      <b>Drum Roll</b><br />
+      <audio controls>
+        <source src="audio/drum_roll.mp4" type="audio/mp4">
+        not supported
+      </audio>
+      <hr />
+
+      <br />
+      <b>Skit Songs</b><br />
+      <audio controls>
+        <source src="audio/skit.mp3" type="audio/mp3">
+        not supported
+      </audio>
+      <hr />
+    </div>
+
+
+
+    
+
+
+
+    <script>
+    var coll = document.getElementsByClassName("collapsible");
+    var i;
+
+    for (i = 0; i < coll.length; i++) {
+      coll[i].addEventListener("click", function() {
+        this.classList.toggle("active");
+        var content = this.nextElementSibling;
+        if (content.style.display === "block") {
+          content.style.display = "none";
+        } else {
+          content.style.display = "block";
+        }
+      });
+    }
+    </script>
+</body>
+</html>

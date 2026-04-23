@@ -10,6 +10,7 @@
             --bg: #f8fafc;
             --card-bg: #ffffff;
             --text: #1e293b;
+            --hp-primary: #7f1d1d; /* A gryffindor-ish red for variety */
         }
         body {
             font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
@@ -51,12 +52,17 @@
             cursor: pointer;
             margin: 10px;
             transition: opacity 0.2s;
+            width: 80%;
+            max-width: 300px;
         }
         button:hover {
             opacity: 0.9;
         }
         button.secondary {
             background-color: #64748b;
+        }
+        button.theme-hp {
+            background-color: var(--hp-primary);
         }
         #question-display {
             font-size: 24px;
@@ -85,10 +91,12 @@
             <h1>Select a Category</h1>
             <p>Choose a topic to begin learning.</p>
             <button id="category-states-btn">US States & Capitals</button>
-            </div>
+            <br>
+            <button id="category-hp-btn" class="theme-hp">Harry Potter Trivia</button>
+        </div>
 
         <div id="quiz-view" class="view">
-            <h1>US States & Capitals</h1>
+            <h1 id="quiz-title">Quiz</h1>
             <div class="progress" id="progress-display"></div>
             
             <div id="question-display">Click Start to begin.</div>
@@ -102,6 +110,7 @@
     </div>
 
     <script>
+        // --- Data Sources ---
         const statesData = [
             { state: "Alabama", capital: "Montgomery" }, { state: "Alaska", capital: "Juneau" },
             { state: "Arizona", capital: "Phoenix" }, { state: "Arkansas", capital: "Little Rock" },
@@ -130,18 +139,92 @@
             { state: "Wisconsin", capital: "Madison" }, { state: "Wyoming", capital: "Cheyenne" }
         ];
 
+        const hpData = [
+            { question: "Who is the Half-Blood Prince?", answer: "Severus Snape" },
+            { question: "What is the name of Harry's pet snowy owl?", answer: "Hedwig" },
+            { question: "What house is Draco Malfoy in?", answer: "Slytherin" },
+            { question: "What magical core does Harry Potter's wand have?", answer: "Phoenix feather" },
+            { question: "Who guards the entrance to the Gryffindor common room?", answer: "The Fat Lady" },
+            { question: "What position does Harry play on the Gryffindor Quidditch team?", answer: "Seeker" },
+            { question: "What is the name of the three-headed dog guarding the Philosopher's Stone?", answer: "Fluffy" },
+            { question: "Who is the author of A History of Magic?", answer: "Bathilda Bagshot" },
+            { question: "What is the name of the primary magical newspaper in Britain?", answer: "The Daily Prophet" },
+            { question: "What shape does Arthur Weasley's Patronus take?", answer: "A weasel" },
+            { question: "Which magical creature pulls the Hogwarts carriages?", answer: "Thestrals" },
+            { question: "Who is the ghost of Slytherin house?", answer: "The Bloody Baron" },
+            { question: "What is the name of Hagrid's giant half-brother?", answer: "Grawp" },
+            { question: "What magical plant screams when uprooted?", answer: "Mandrake" },
+            { question: "What spell is used to disarm an opponent?", answer: "Expelliarmus" },
+            { question: "Who was the famous prisoner of Azkaban?", answer: "Sirius Black" },
+            { question: "What is the name of the joke shop founded by Fred and George Weasley?", answer: "Weasleys' Wizard Wheezes" },
+            { question: "What type of creature is an Acromantula?", answer: "A giant spider" },
+            { question: "What is the name of the train that takes students to Hogwarts?", answer: "The Hogwarts Express" },
+            { question: "Who was the headmaster of Hogwarts before Albus Dumbledore?", answer: "Armando Dippet" },
+            { question: "What is the incantation to unlock a door?", answer: "Alohomora" },
+            { question: "What magical object shows the deepest, most desperate desire of our hearts?", answer: "The Mirror of Erised" },
+            { question: "What animal can Minerva McGonagall transform into?", answer: "A cat" },
+            { question: "Who killed Dobby the house-elf?", answer: "Bellatrix Lestrange" },
+            { question: "What is the street address of the Dursley family?", answer: "Number 4 Privet Drive" },
+            { question: "What potion grants the drinker unusually good luck?", answer: "Felix Felicis" },
+            { question: "What dark creatures guard the wizard prison Azkaban?", answer: "Dementors" },
+            { question: "What is the name of Ron Weasley's pet rat?", answer: "Scabbers" },
+            { question: "What type of dragon did Harry face in the Triwizard Tournament?", answer: "The Hungarian Horntail" },
+            { question: "Who is the resident poltergeist at Hogwarts?", answer: "Peeves" },
+            { question: "What spell produces light from the wand tip?", answer: "Lumos" },
+            { question: "What is the name of Hermione's pet cat?", answer: "Crookshanks" },
+            { question: "What object acts as a Portkey during the Quidditch World Cup?", answer: "An old boot" },
+            { question: "Who replaced Cornelius Fudge as Minister for Magic?", answer: "Rufus Scrimgeour" },
+            { question: "What is the name of Lord Voldemort's pet snake?", answer: "Nagini" },
+            { question: "What is the term for a non-magical person born to magical parents?", answer: "A Squib" },
+            { question: "What are the names of the four Hogwarts founders?", answer: "Godric, Helga, Rowena, and Salazar" },
+            { question: "Who is the matron of the hospital wing at Hogwarts?", answer: "Madam Pomfrey" },
+            { question: "What spell creates a spirit guardian?", answer: "Expecto Patronum" },
+            { question: "What is the password to activate the Marauder's Map?", answer: "I solemnly swear that I am up to no good" },
+            { question: "What is the name of the goblin who helps Harry break into Gringotts?", answer: "Griphook" },
+            { question: "What aggressive tree destroys the flying Ford Anglia?", answer: "The Whomping Willow" },
+            { question: "Who teaches Divination at Hogwarts?", answer: "Professor Trelawney" },
+            { question: "What magical candy comes with a collectible wizard card?", answer: "Chocolate Frogs" },
+            { question: "What is the name of the pub in Hogsmeade owned by Aberforth Dumbledore?", answer: "The Hog's Head" },
+            { question: "Which Horcrux was destroyed by Neville Longbottom?", answer: "Nagini" },
+            { question: "What powerful potion forces the drinker to tell the absolute truth?", answer: "Veritaserum" },
+            { question: "What is the name of the village where Harry was born?", answer: "Godric's Hollow" },
+            { question: "What French wizarding school does Fleur Delacour attend?", answer: "Beauxbatons" },
+            { question: "What is the spell used to levitate objects?", answer: "Wingardium Leviosa" }
+        ];
+
+        // --- App State ---
+        let activeCategory = ''; 
         let quizQueue = [];
         let currentIndex = 0;
         let isRunning = false;
         let timeoutId = null;
 
-        // View Management
+        // Force browser to preload voices if possible
+        if (window.speechSynthesis) {
+            window.speechSynthesis.getVoices();
+        }
+
+        // --- View Management ---
         function showView(viewId) {
             document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
             document.getElementById(viewId).classList.add('active');
         }
 
-        function openQuiz() {
+        function openQuiz(category) {
+            activeCategory = category;
+            
+            // Set Titles & Themes
+            const titleEl = document.getElementById('quiz-title');
+            if (category === 'states') {
+                titleEl.innerText = "US States & Capitals";
+                titleEl.style.color = "var(--primary)";
+                document.getElementById('start-btn').style.backgroundColor = "var(--primary)";
+            } else if (category === 'hp') {
+                titleEl.innerText = "Harry Potter Trivia";
+                titleEl.style.color = "var(--hp-primary)";
+                document.getElementById('start-btn').style.backgroundColor = "var(--hp-primary)";
+            }
+
             showView('quiz-view');
             resetQuizUI();
         }
@@ -151,7 +234,7 @@
             showView('home-view');
         }
 
-        // Quiz Logic
+        // --- Quiz Logic ---
         function shuffleArray(array) {
             let shuffled = [...array];
             for (let i = shuffled.length - 1; i > 0; i--) {
@@ -177,7 +260,13 @@
 
         function startQuiz() {
             stopQuiz(); 
-            quizQueue = shuffleArray(statesData);
+            
+            if (activeCategory === 'states') {
+                quizQueue = shuffleArray(statesData);
+            } else if (activeCategory === 'hp') {
+                quizQueue = shuffleArray(hpData);
+            }
+
             currentIndex = 0;
             isRunning = true;
             document.getElementById('start-btn').style.display = "none";
@@ -198,10 +287,19 @@
             }
 
             let currentItem = quizQueue[currentIndex];
-            let questionText = `What is the capital of ${currentItem.state}?`;
+            let questionText, answerText;
+            
+            // Format question based on category
+            if (activeCategory === 'states') {
+                questionText = `What is the capital of ${currentItem.state}?`;
+                answerText = currentItem.capital;
+            } else if (activeCategory === 'hp') {
+                questionText = currentItem.question;
+                answerText = currentItem.answer;
+            }
             
             // Update UI
-            document.getElementById('progress-display').innerText = `State ${currentIndex + 1} of ${quizQueue.length}`;
+            document.getElementById('progress-display').innerText = `Question ${currentIndex + 1} of ${quizQueue.length}`;
             document.getElementById('question-display').innerText = questionText;
             document.getElementById('answer-display').innerText = "";
 
@@ -210,18 +308,18 @@
                 if (!isRunning) return;
                 // Wait 5 seconds, then show/speak answer
                 timeoutId = setTimeout(() => {
-                    showAnswer(currentItem.capital);
+                    showAnswer(answerText);
                 }, 5000);
             });
         }
 
-        function showAnswer(capitalText) {
+        function showAnswer(answerText) {
             if (!isRunning) return;
             
-            document.getElementById('answer-display').innerText = capitalText;
+            document.getElementById('answer-display').innerText = answerText;
             
             // Speak answer
-            speakText(capitalText, () => {
+            speakText(answerText, () => {
                 if (!isRunning) return;
                 // Brief pause before the next state
                 timeoutId = setTimeout(() => {
@@ -231,7 +329,7 @@
             });
         }
 
-        // Web Speech API Wrapper
+        // --- Web Speech API Wrapper ---
         function speakText(text, onEndCallback) {
             if (!window.speechSynthesis) {
                 console.error("Speech Synthesis not supported in this browser.");
@@ -244,6 +342,21 @@
 
             let utterance = new SpeechSynthesisUtterance(text);
             utterance.rate = 0.9; 
+
+            // Apply British Accent if Harry Potter
+            if (activeCategory === 'hp') {
+                // Tell the OS we prefer British English
+                utterance.lang = 'en-GB'; 
+                
+                // Attempt to explicitly select a British voice if available in the browser
+                const voices = window.speechSynthesis.getVoices();
+                const britishVoice = voices.find(voice => voice.lang === 'en-GB' || voice.lang === 'en_GB');
+                if (britishVoice) {
+                    utterance.voice = britishVoice;
+                }
+            } else {
+                utterance.lang = 'en-US';
+            }
             
             utterance.onend = () => {
                 if (onEndCallback) onEndCallback();
@@ -258,8 +371,8 @@
         }
 
         // --- Event Listeners ---
-        // Attaching events this way guarantees they work even if a previewer hides them from the global scope
-        document.getElementById('category-states-btn').addEventListener('click', openQuiz);
+        document.getElementById('category-states-btn').addEventListener('click', () => openQuiz('states'));
+        document.getElementById('category-hp-btn').addEventListener('click', () => openQuiz('hp'));
         document.getElementById('start-btn').addEventListener('click', startQuiz);
         document.getElementById('home-btn').addEventListener('click', goHome);
     </script>

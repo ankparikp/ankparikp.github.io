@@ -16,6 +16,7 @@
             --math: #059669;
             --time: #d97706;
             --geo: #0284c7;
+            --warning: #f59e0b;
         }
         body {
             font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
@@ -80,6 +81,11 @@
             width: auto;
             margin: 10px;
         }
+        button.warning {
+            background-color: var(--warning);
+            width: auto;
+            margin: 10px;
+        }
         button.theme-surprise { background-color: var(--surprise); font-size: 18px; padding: 18px; }
         button.theme-hp { background-color: var(--hp-primary); }
         button.theme-solar { background-color: var(--solar); }
@@ -113,9 +119,10 @@
             margin-top: 30px;
             display: flex;
             justify-content: center;
-            gap: 15px;
+            gap: 10px;
+            flex-wrap: wrap;
         }
-        #start-btn { width: auto; min-width: 150px; }
+        #start-btn { width: auto; min-width: 150px; margin: 10px; }
 
         @media (max-width: 500px) {
             .menu-grid { grid-template-columns: 1fr; }
@@ -154,6 +161,7 @@
 
             <div id="controls">
                 <button id="start-btn">Start</button>
+                <button id="pause-btn" class="warning" style="display: none;">Pause</button>
                 <button class="secondary" id="home-btn">Back to Menu</button>
             </div>
         </div>
@@ -161,8 +169,6 @@
 
     <script>
         // --- Unified Data Sources ---
-        // Formatting numbers as words where helpful to ensure standard text-to-speech reading
-        
         const db = {
             states: [
                 { q: "What is the capital of Alabama?", a: "Montgomery" }, { q: "What is the capital of Alaska?", a: "Juneau" },
@@ -206,261 +212,4 @@
                 { q: "What animal can Minerva McGonagall transform into?", a: "A cat" }, { q: "Who killed Dobby the house-elf?", a: "Bellatrix Lestrange" },
                 { q: "What is the street address of the Dursley family?", a: "Number 4 Privet Drive" }, { q: "What potion grants the drinker unusually good luck?", a: "Felix Felicis" },
                 { q: "What dark creatures guard the wizard prison Azkaban?", a: "Dementors" }, { q: "What is the name of Ron Weasley's pet rat?", a: "Scabbers" },
-                { q: "What type of dragon did Harry face in the Triwizard Tournament?", a: "The Hungarian Horntail" }, { q: "Who is the resident poltergeist at Hogwarts?", a: "Peeves" },
-                { q: "What spell produces light from the wand tip?", a: "Lumos" }, { q: "What is the name of Hermione's pet cat?", a: "Crookshanks" },
-                { q: "What object acts as a Portkey during the Quidditch World Cup?", a: "An old boot" }, { q: "Who replaced Cornelius Fudge as Minister for Magic?", a: "Rufus Scrimgeour" },
-                { q: "What is the name of Lord Voldemort's pet snake?", a: "Nagini" }, { q: "What is the term for a non-magical person born to magical parents?", a: "A Squib" },
-                { q: "What are the names of the four Hogwarts founders?", a: "Godric, Helga, Rowena, and Salazar" }, { q: "Who is the matron of the hospital wing at Hogwarts?", a: "Madam Pomfrey" },
-                { q: "What spell creates a spirit guardian?", a: "Expecto Patronum" }, { q: "What is the password to activate the Marauder's Map?", a: "I solemnly swear that I am up to no good" },
-                { q: "What is the name of the goblin who helps Harry break into Gringotts?", a: "Griphook" }, { q: "What aggressive tree destroys the flying Ford Anglia?", a: "The Whomping Willow" },
-                { q: "Who teaches Divination at Hogwarts?", a: "Professor Trelawney" }, { q: "What magical candy comes with a collectible wizard card?", a: "Chocolate Frogs" },
-                { q: "What is the name of the pub in Hogsmeade owned by Aberforth Dumbledore?", a: "The Hog's Head" }, { q: "Which Horcrux was destroyed by Neville Longbottom?", a: "Nagini" },
-                { q: "What powerful potion forces the drinker to tell the absolute truth?", a: "Veritaserum" }, { q: "What is the name of the village where Harry was born?", a: "Godric's Hollow" },
-                { q: "What French wizarding school does Fleur Delacour attend?", a: "Beauxbatons" }, { q: "What is the spell used to levitate objects?", a: "Wingardium Leviosa" }
-            ],
-            solar: [
-                { q: "Which planet is closest to the Sun?", a: "Mercury" }, { q: "What is the largest planet in our solar system?", a: "Jupiter" },
-                { q: "Which planet is known as the Red Planet?", a: "Mars" }, { q: "What planet is famous for its beautiful rings?", a: "Saturn" },
-                { q: "Which planet is the hottest in our solar system?", a: "Venus" }, { q: "What is the name of our galaxy?", a: "The Milky Way" },
-                { q: "What do we call a rock from space that hits the Earth's surface?", a: "A Meteorite" }, { q: "Which planet is furthest from the Sun?", a: "Neptune" },
-                { q: "What is the Sun primarily made of?", a: "Hydrogen and Helium" }, { q: "What is the name of Earth's only natural satellite?", a: "The Moon" },
-                { q: "Which dwarf planet was formerly considered the ninth planet?", a: "Pluto" }, { q: "What is the Great Red Spot on Jupiter?", a: "A giant storm" },
-                { q: "Which planet rotates on its side?", a: "Uranus" }, { q: "What force keeps the planets in orbit around the Sun?", a: "Gravity" },
-                { q: "Between which two planets is the asteroid belt located?", a: "Mars and Jupiter" }, { q: "How many planets are in our solar system?", a: "Eight" },
-                { q: "Which planet has the highest mountain in the solar system, Olympus Mons?", a: "Mars" }, { q: "What do we call a dirty snowball of ice and dust in space?", a: "A Comet" },
-                { q: "Which planet has a day that is longer than its year?", a: "Venus" }, { q: "What is the name of the largest moon of Saturn?", a: "Titan" }
-            ],
-            percentage: [
-                { q: "What is 50 percent of 20?", a: "10" }, { q: "What is 100 percent of 45?", a: "45" },
-                { q: "What is 10 percent of 100?", a: "10" }, { q: "What is 25 percent of 40?", a: "10" },
-                { q: "What is 50 percent of 80?", a: "40" }, { q: "What is 10 percent of 50?", a: "5" },
-                { q: "What is 20 percent of 100?", a: "20" }, { q: "What is 25 percent of 100?", a: "25" },
-                { q: "What is 75 percent of 100?", a: "75" }, { q: "What is 50 percent of 10?", a: "5" },
-                { q: "What is 10 percent of 200?", a: "20" }, { q: "What is 20 percent of 50?", a: "10" },
-                { q: "What is 50 percent of 1000?", a: "500" }, { q: "What is 25 percent of 8?", a: "2" },
-                { q: "What is 100 percent of 99?", a: "99" }, { q: "What is 10 percent of 30?", a: "3" },
-                { q: "What is 50 percent of 60?", a: "30" }, { q: "What is 25 percent of 20?", a: "5" },
-                { q: "What is 75 percent of 40?", a: "30" }, { q: "What is 10 percent of 90?", a: "9" }
-            ],
-            mathFacts: [
-                { q: "What is 7 times 8?", a: "56" }, { q: "What is 9 times 9?", a: "81" },
-                { q: "What is 12 times 12?", a: "144" }, { q: "What is 6 times 7?", a: "42" },
-                { q: "What is 54 divided by 6?", a: "9" }, { q: "What is 8 times 4?", a: "32" },
-                { q: "What is 15 plus 16?", a: "31" }, { q: "What is 100 minus 35?", a: "65" },
-                { q: "What is 11 times 11?", a: "121" }, { q: "What is 48 divided by 8?", a: "6" },
-                { q: "What is 3 cubed?", a: "27" }, { q: "What is the square root of 64?", a: "8" },
-                { q: "What is 9 times 6?", a: "54" }, { q: "What is 25 plus 45?", a: "70" },
-                { q: "What is 12 times 5?", a: "60" }, { q: "What is 81 divided by 9?", a: "9" },
-                { q: "What is 13 times 2?", a: "26" }, { q: "What is 7 times 9?", a: "63" },
-                { q: "What is 50 times 2?", a: "100" }, { q: "What is the square root of 100?", a: "10" }
-            ],
-            time: [
-                { q: "How many seconds are in one minute?", a: "60" }, { q: "How many minutes are in one hour?", a: "60" },
-                { q: "How many hours are in one day?", a: "24" }, { q: "How many days are in a week?", a: "7" },
-                { q: "How many days are in a normal year?", a: "365" }, { q: "How many days are in a leap year?", a: "366" },
-                { q: "How many months are in a year?", a: "12" }, { q: "How many weeks are in a year?", a: "52" },
-                { q: "How many days are in the month of February during a leap year?", a: "29" }, { q: "How many years are in a decade?", a: "10" },
-                { q: "How many years are in a century?", a: "100" }, { q: "How many years are in a millennium?", a: "1000" },
-                { q: "How many days are in April?", a: "30" }, { q: "How many days are in July?", a: "31" },
-                { q: "How many days are in November?", a: "30" }, { q: "If it is 2 P.M. now, what time will it be in 3 hours?", a: "5 P.M." },
-                { q: "How many seconds are in 2 minutes?", a: "120" }, { q: "How many months have exactly 30 days?", a: "4" },
-                { q: "What month comes after August?", a: "September" }, { q: "How many quarters are in an hour?", a: "4" }
-            ],
-            geo: [
-                { q: "Which continent is the country of Brazil located in?", a: "South America" }, { q: "Which continent is the country of Egypt located in?", a: "Africa" },
-                { q: "Which continent is the country of Japan located in?", a: "Asia" }, { q: "Which continent is the country of France located in?", a: "Europe" },
-                { q: "Which continent is the country of Canada located in?", a: "North America" }, { q: "Which continent is the country of Kenya located in?", a: "Africa" },
-                { q: "Which continent is the country of China located in?", a: "Asia" }, { q: "Which continent is the country of Argentina located in?", a: "South America" },
-                { q: "Which continent is the country of Germany located in?", a: "Europe" }, { q: "Which continent is the country of Mexico located in?", a: "North America" },
-                { q: "What is the largest continent by land area?", a: "Asia" }, { q: "What is the smallest continent by land area?", a: "Australia" },
-                { q: "Which continent is known for being covered in ice and having no permanent residents?", a: "Antarctica" }, { q: "Which continent is the country of India located in?", a: "Asia" },
-                { q: "Which continent is the country of Italy located in?", a: "Europe" }, { q: "Which continent is the country of Nigeria located in?", a: "Africa" },
-                { q: "Which continent is the United States located in?", a: "North America" }, { q: "Which continent is the country of Peru located in?", a: "South America" },
-                { q: "Which continent has the most countries?", a: "Africa" }, { q: "Which continent is the country of Spain located in?", a: "Europe" }
-            ]
-        };
-
-        // Inject category metadata into each item for mixed "Surprise Me" mode
-        Object.keys(db).forEach(categoryKey => {
-            db[categoryKey].forEach(item => {
-                item.category = categoryKey;
-            });
-        });
-
-        // --- App State ---
-        let activeCategory = ''; 
-        let quizQueue = [];
-        let currentIndex = 0;
-        let isRunning = false;
-        let timeoutId = null;
-
-        // Force browser to preload voices if possible
-        if (window.speechSynthesis) {
-            window.speechSynthesis.getVoices();
-        }
-
-        // --- View Management ---
-        function showView(viewId) {
-            document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
-            document.getElementById(viewId).classList.add('active');
-        }
-
-        function openQuiz(category, title, themeColor) {
-            activeCategory = category;
-            
-            // Set Titles & Themes
-            const titleEl = document.getElementById('quiz-title');
-            titleEl.innerText = title;
-            titleEl.style.color = themeColor;
-            
-            const startBtn = document.getElementById('start-btn');
-            startBtn.style.backgroundColor = themeColor;
-
-            showView('quiz-view');
-            resetQuizUI();
-        }
-
-        function goHome() {
-            stopQuiz();
-            showView('home-view');
-        }
-
-        // --- Quiz Logic ---
-        function shuffleArray(array) {
-            let shuffled = [...array];
-            for (let i = shuffled.length - 1; i > 0; i--) {
-                const j = Math.floor(Math.random() * (i + 1));
-                [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
-            }
-            return shuffled;
-        }
-
-        function resetQuizUI() {
-            document.getElementById('question-display').innerText = "Click Start to begin.";
-            document.getElementById('answer-display').innerText = "";
-            document.getElementById('progress-display').innerText = "";
-            document.getElementById('start-btn').style.display = "inline-block";
-            document.getElementById('start-btn').innerText = "Start";
-        }
-
-        function stopQuiz() {
-            isRunning = false;
-            clearTimeout(timeoutId);
-            window.speechSynthesis.cancel();
-        }
-
-        function startQuiz() {
-            stopQuiz(); 
-            
-            if (activeCategory === 'surprise') {
-                // Combine all arrays
-                let allQuestions = [].concat(
-                    db.states, db.hp, db.solar, 
-                    db.percentage, db.mathFacts, db.time, db.geo
-                );
-                quizQueue = shuffleArray(allQuestions).slice(0, 50); // Limit to 50 questions
-            } else {
-                quizQueue = shuffleArray(db[activeCategory]);
-            }
-
-            currentIndex = 0;
-            isRunning = true;
-            document.getElementById('start-btn').style.display = "none";
-            nextQuestion();
-        }
-
-        function nextQuestion() {
-            if (!isRunning) return;
-
-            if (currentIndex >= quizQueue.length) {
-                document.getElementById('question-display').innerText = "Quiz Complete!";
-                document.getElementById('answer-display').innerText = "";
-                document.getElementById('progress-display').innerText = "";
-                document.getElementById('start-btn').style.display = "inline-block";
-                document.getElementById('start-btn').innerText = "Restart";
-                isRunning = false;
-                return;
-            }
-
-            let currentItem = quizQueue[currentIndex];
-            
-            // Update UI
-            document.getElementById('progress-display').innerText = `Question ${currentIndex + 1} of ${quizQueue.length}`;
-            document.getElementById('question-display').innerText = currentItem.q;
-            document.getElementById('answer-display').innerText = "";
-
-            // Speak question
-            speakText(currentItem.q, currentItem.category, () => {
-                if (!isRunning) return;
-                // Wait 5 seconds, then show/speak answer
-                timeoutId = setTimeout(() => {
-                    showAnswer(currentItem.a, currentItem.category);
-                }, 5000);
-            });
-        }
-
-        function showAnswer(answerText, categoryTheme) {
-            if (!isRunning) return;
-            
-            document.getElementById('answer-display').innerText = answerText;
-            
-            // Speak answer
-            speakText(answerText, categoryTheme, () => {
-                if (!isRunning) return;
-                // Brief pause before the next question
-                timeoutId = setTimeout(() => {
-                    currentIndex++;
-                    nextQuestion();
-                }, 2000); 
-            });
-        }
-
-        // --- Web Speech API Wrapper ---
-        function speakText(text, itemCategory, onEndCallback) {
-            if (!window.speechSynthesis) {
-                console.error("Speech Synthesis not supported in this browser.");
-                if (onEndCallback) onEndCallback();
-                return;
-            }
-
-            window.speechSynthesis.cancel();
-
-            let utterance = new SpeechSynthesisUtterance(text);
-            utterance.rate = 0.9; 
-
-            // Apply British Accent ONLY if the specific question is from Harry Potter
-            if (itemCategory === 'hp') {
-                utterance.lang = 'en-GB'; 
-                const voices = window.speechSynthesis.getVoices();
-                const britishVoice = voices.find(voice => voice.lang === 'en-GB' || voice.lang === 'en_GB');
-                if (britishVoice) {
-                    utterance.voice = britishVoice;
-                }
-            } else {
-                utterance.lang = 'en-US';
-            }
-            
-            utterance.onend = () => { if (onEndCallback) onEndCallback(); };
-            utterance.onerror = (e) => { 
-                console.error("Speech error:", e);
-                if (onEndCallback) onEndCallback(); 
-            };
-
-            window.speechSynthesis.speak(utterance);
-        }
-
-        // --- Event Listeners ---
-        document.getElementById('btn-surprise').addEventListener('click', () => openQuiz('surprise', '🎉 Surprise Me! 🎉', 'var(--surprise)'));
-        document.getElementById('btn-states').addEventListener('click', () => openQuiz('states', 'US States & Capitals', 'var(--primary)'));
-        document.getElementById('btn-hp').addEventListener('click', () => openQuiz('hp', 'Harry Potter Trivia', 'var(--hp-primary)'));
-        document.getElementById('btn-solar').addEventListener('click', () => openQuiz('solar', 'Solar System', 'var(--solar)'));
-        document.getElementById('btn-math-perc').addEventListener('click', () => openQuiz('percentage', 'Simple Percentages', 'var(--math)'));
-        document.getElementById('btn-math-facts').addEventListener('click', () => openQuiz('mathFacts', 'Math Facts', 'var(--math)'));
-        document.getElementById('btn-time').addEventListener('click', () => openQuiz('time', 'Time & Conversions', 'var(--time)'));
-        document.getElementById('btn-geo').addEventListener('click', () => openQuiz('geo', 'Continents & Countries', 'var(--geo)'));
-
-        document.getElementById('start-btn').addEventListener('click', startQuiz);
-        document.getElementById('home-btn').addEventListener('click', goHome);
-    </script>
-</body>
-</html>
+                { q: "What

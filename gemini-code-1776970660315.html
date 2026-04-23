@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Educational Flashcards</title>
+    <style>
+        :root {
+            --primary: #2563eb;
+            --bg: #f8fafc;
+            --card-bg: #ffffff;
+            --text: #1e293b;
+        }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            background-color: var(--bg);
+            color: var(--text);
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+        }
+        .container {
+            max-width: 600px;
+            width: 100%;
+            background: var(--card-bg);
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1);
+            text-align: center;
+        }
+        h1 {
+            margin-top: 0;
+            color: var(--primary);
+        }
+        .view {
+            display: none;
+        }
+        .view.active {
+            display: block;
+        }
+        button {
+            background-color: var(--primary);
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 6px;
+            font-size: 16px;
+            cursor: pointer;
+            margin: 10px;
+            transition: opacity 0.2s;
+        }
+        button:hover {
+            opacity: 0.9;
+        }
+        button.secondary {
+            background-color: #64748b;
+        }
+        #question-display {
+            font-size: 24px;
+            font-weight: bold;
+            margin: 30px 0;
+            min-height: 60px;
+        }
+        #answer-display {
+            font-size: 32px;
+            font-weight: bold;
+            color: #16a34a;
+            margin: 20px 0;
+            min-height: 40px;
+        }
+        .progress {
+            font-size: 14px;
+            color: #64748b;
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <div id="home-view" class="view active">
+            <h1>Select a Category</h1>
+            <p>Choose a topic to begin learning.</p>
+            <button id="category-states-btn">US States & Capitals</button>
+            </div>
+
+        <div id="quiz-view" class="view">
+            <h1>US States & Capitals</h1>
+            <div class="progress" id="progress-display"></div>
+            
+            <div id="question-display">Click Start to begin.</div>
+            <div id="answer-display"></div>
+
+            <div id="controls">
+                <button id="start-btn">Start</button>
+                <button class="secondary" id="home-btn">Back to Menu</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const statesData = [
+            { state: "Alabama", capital: "Montgomery" }, { state: "Alaska", capital: "Juneau" },
+            { state: "Arizona", capital: "Phoenix" }, { state: "Arkansas", capital: "Little Rock" },
+            { state: "California", capital: "Sacramento" }, { state: "Colorado", capital: "Denver" },
+            { state: "Connecticut", capital: "Hartford" }, { state: "Delaware", capital: "Dover" },
+            { state: "Florida", capital: "Tallahassee" }, { state: "Georgia", capital: "Atlanta" },
+            { state: "Hawaii", capital: "Honolulu" }, { state: "Idaho", capital: "Boise" },
+            { state: "Illinois", capital: "Springfield" }, { state: "Indiana", capital: "Indianapolis" },
+            { state: "Iowa", capital: "Des Moines" }, { state: "Kansas", capital: "Topeka" },
+            { state: "Kentucky", capital: "Frankfort" }, { state: "Louisiana", capital: "Baton Rouge" },
+            { state: "Maine", capital: "Augusta" }, { state: "Maryland", capital: "Annapolis" },
+            { state: "Massachusetts", capital: "Boston" }, { state: "Michigan", capital: "Lansing" },
+            { state: "Minnesota", capital: "Saint Paul" }, { state: "Mississippi", capital: "Jackson" },
+            { state: "Missouri", capital: "Jefferson City" }, { state: "Montana", capital: "Helena" },
+            { state: "Nebraska", capital: "Lincoln" }, { state: "Nevada", capital: "Carson City" },
+            { state: "New Hampshire", capital: "Concord" }, { state: "New Jersey", capital: "Trenton" },
+            { state: "New Mexico", capital: "Santa Fe" }, { state: "New York", capital: "Albany" },
+            { state: "North Carolina", capital: "Raleigh" }, { state: "North Dakota", capital: "Bismarck" },
+            { state: "Ohio", capital: "Columbus" }, { state: "Oklahoma", capital: "Oklahoma City" },
+            { state: "Oregon", capital: "Salem" }, { state: "Pennsylvania", capital: "Harrisburg" },
+            { state: "Rhode Island", capital: "Providence" }, { state: "South Carolina", capital: "Columbia" },
+            { state: "South Dakota", capital: "Pierre" }, { state: "Tennessee", capital: "Nashville" },
+            { state: "Texas", capital: "Austin" }, { state: "Utah", capital: "Salt Lake City" },
+            { state: "Vermont", capital: "Montpelier" }, { state: "Virginia", capital: "Richmond" },
+            { state: "Washington", capital: "Olympia" }, { state: "West Virginia", capital: "Charleston" },
+            { state: "Wisconsin", capital: "Madison" }, { state: "Wyoming", capital: "Cheyenne" }
+        ];
+
+        let quizQueue = [];
+        let currentIndex = 0;
+        let isRunning = false;
+        let timeoutId = null;
+
+        // View Management
+        function showView(viewId) {
+            document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
+            document.getElementById(viewId).classList.add('active');
+        }
+
+        function openQuiz() {
+            showView('quiz-view');
+            resetQuizUI();
+        }
+
+        function goHome() {
+            stopQuiz();
+            showView('home-view');
+        }
+
+        // Quiz Logic
+        function shuffleArray(array) {
+            let shuffled = [...array];
+            for (let i = shuffled.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+            }
+            return shuffled;
+        }
+
+        function resetQuizUI() {
+            document.getElementById('question-display').innerText = "Click Start to begin.";
+            document.getElementById('answer-display').innerText = "";
+            document.getElementById('progress-display').innerText = "";
+            document.getElementById('start-btn').style.display = "inline-block";
+            document.getElementById('start-btn').innerText = "Start";
+        }
+
+        function stopQuiz() {
+            isRunning = false;
+            clearTimeout(timeoutId);
+            window.speechSynthesis.cancel();
+        }
+
+        function startQuiz() {
+            stopQuiz(); 
+            quizQueue = shuffleArray(statesData);
+            currentIndex = 0;
+            isRunning = true;
+            document.getElementById('start-btn').style.display = "none";
+            nextQuestion();
+        }
+
+        function nextQuestion() {
+            if (!isRunning) return;
+
+            if (currentIndex >= quizQueue.length) {
+                document.getElementById('question-display').innerText = "Quiz Complete!";
+                document.getElementById('answer-display').innerText = "";
+                document.getElementById('progress-display').innerText = "";
+                document.getElementById('start-btn').style.display = "inline-block";
+                document.getElementById('start-btn').innerText = "Restart";
+                isRunning = false;
+                return;
+            }
+
+            let currentItem = quizQueue[currentIndex];
+            let questionText = `What is the capital of ${currentItem.state}?`;
+            
+            // Update UI
+            document.getElementById('progress-display').innerText = `State ${currentIndex + 1} of ${quizQueue.length}`;
+            document.getElementById('question-display').innerText = questionText;
+            document.getElementById('answer-display').innerText = "";
+
+            // Speak question
+            speakText(questionText, () => {
+                if (!isRunning) return;
+                // Wait 5 seconds, then show/speak answer
+                timeoutId = setTimeout(() => {
+                    showAnswer(currentItem.capital);
+                }, 5000);
+            });
+        }
+
+        function showAnswer(capitalText) {
+            if (!isRunning) return;
+            
+            document.getElementById('answer-display').innerText = capitalText;
+            
+            // Speak answer
+            speakText(capitalText, () => {
+                if (!isRunning) return;
+                // Brief pause before the next state
+                timeoutId = setTimeout(() => {
+                    currentIndex++;
+                    nextQuestion();
+                }, 2000); 
+            });
+        }
+
+        // Web Speech API Wrapper
+        function speakText(text, onEndCallback) {
+            if (!window.speechSynthesis) {
+                console.error("Speech Synthesis not supported in this browser.");
+                if (onEndCallback) onEndCallback();
+                return;
+            }
+
+            // Cancel any ongoing speech
+            window.speechSynthesis.cancel();
+
+            let utterance = new SpeechSynthesisUtterance(text);
+            utterance.rate = 0.9; 
+            
+            utterance.onend = () => {
+                if (onEndCallback) onEndCallback();
+            };
+            
+            utterance.onerror = (e) => {
+                console.error("Speech error:", e);
+                if (onEndCallback) onEndCallback(); 
+            };
+
+            window.speechSynthesis.speak(utterance);
+        }
+
+        // --- Event Listeners ---
+        // Attaching events this way guarantees they work even if a previewer hides them from the global scope
+        document.getElementById('category-states-btn').addEventListener('click', openQuiz);
+        document.getElementById('start-btn').addEventListener('click', startQuiz);
+        document.getElementById('home-btn').addEventListener('click', goHome);
+    </script>
+</body>
+</html>

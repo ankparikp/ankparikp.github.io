@@ -17,6 +17,7 @@
             --time: #d97706;
             --geo: #0284c7;
             --warning: #f59e0b;
+            --stranger: #b91c1c;
         }
         body {
             font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
@@ -92,6 +93,7 @@
         button.theme-math { background-color: var(--math); }
         button.theme-time { background-color: var(--time); }
         button.theme-geo { background-color: var(--geo); }
+        button.theme-stranger { background-color: var(--stranger); }
 
         #question-display {
             font-size: 26px;
@@ -138,10 +140,11 @@
             
             <div class="menu-grid">
                 <div class="menu-full-width">
-                    <button id="btn-surprise" class="theme-surprise">🎉 Surprise Me! 🎉</button>
+                    <button id="btn-surprise" class="theme-surprise">✨ Surprise Me! ✨</button>
                 </div>
                 <button id="btn-states">US States & Capitals</button>
                 <button id="btn-hp" class="theme-hp">Harry Potter Trivia</button>
+                <button id="btn-stranger" class="theme-stranger">Stranger Things Trivia</button>
                 <button id="btn-solar" class="theme-solar">Solar System</button>
                 <button id="btn-geo" class="theme-geo">Continents & Countries</button>
                 <button id="btn-math-perc" class="theme-math">Simple Percentages</button>
@@ -224,6 +227,157 @@
                 { q: "What powerful potion forces the drinker to tell the absolute truth?", a: "Veritaserum" }, { q: "What is the name of the village where Harry was born?", a: "Godric's Hollow" },
                 { q: "What French wizarding school does Fleur Delacour attend?", a: "Beauxbatons" }, { q: "What is the spell used to levitate objects?", a: "Wingardium Leviosa" }
             ],
+            stranger: [
+                { q: "What game are the boys playing in the very first scene of the show?", a: "Dungeons & Dragons" },
+                { q: "What is the name of the fictional town where the show is set?", a: "Hawkins, Indiana" },
+                { q: "What dimension is home to the Demogorgon?", a: "The Upside Down" },
+                { q: "What is Eleven's real name?", a: "Jane" },
+                { q: "What is Eleven's favorite food?", a: "Eggo Waffles" },
+                { q: "Which character vanishes in the first episode?", a: "Will Byers" },
+                { q: "Who is the Chief of Police in Hawkins?", a: "Jim Hopper" },
+                { q: "What is the name of the Hawkins middle school science teacher?", a: "Mr. Clarke" },
+                { q: "What object does Joyce use to communicate with Will in Season 1?", a: "Christmas lights" },
+                { q: "What is the name of Will's fort in the woods?", a: "Castle Byers" },
+                { q: "Who is Eleven's 'Papa'?", a: "Dr. Martin Brenner" },
+                { q: "What does Eleven have tattooed on her arm?", a: "011" },
+                { q: "Who is Nancy Wheeler's best friend that goes missing in Season 1?", a: "Barb Holland" },
+                { q: "What weapon does Nancy practice shooting in Season 1?", a: "A revolver" },
+                { q: "What name do the boys give to the faceless monster in Season 1?", a: "The Demogorgon" },
+                { q: "What is the name of the diner where Eleven first gets food?", a: "Benny's Burgers" },
+                { q: "Who runs the local AV Club?", a: "Mr. Clarke" },
+                { q: "What does Dustin call his front teeth condition?", a: "Cleidocranial Dysplasia" },
+                { q: "What does Jonathan Byers like to do in his free time?", a: "Photography" },
+                { q: "Who is Steve Harrington's initial girlfriend in Season 1?", a: "Nancy Wheeler" },
+                { q: "What name is given to the government facility in the town?", a: "Hawkins National Laboratory" },
+                { q: "What song does Will sing to calm himself in the Upside Down?", a: "Should I Stay or Should I Go by The Clash" },
+                { q: "What game do the boys play at the Palace Arcade in Season 2?", a: "Dig Dug" },
+                { q: "What is Max's high score alias at the arcade?", a: "MADMAX" },
+                { q: "Who is Max's older stepbrother?", a: "Billy Hargrove" },
+                { q: "What does Dustin name his pet Demodog?", a: "Dart" },
+                { q: "What is the giant spider-like monster introduced in Season 2 called?", a: "The Mind Flayer" },
+                { q: "What does Joyce's boyfriend Bob Newby manage?", a: "The local RadioShack" },
+                { q: "What costume do the boys wear for Halloween in Season 2?", a: "Ghostbusters" },
+                { q: "Who is the investigative journalist Nancy and Jonathan visit?", a: "Murray Bauman" },
+                { q: "What is 'Eight's' real name?", a: "Kali" },
+                { q: "What city does Eleven travel to when looking for her 'sister'?", a: "Chicago" },
+                { q: "What is the name of the dance at the end of Season 2?", a: "The Snow Ball" },
+                { q: "What advice does Steve give Dustin about hair?", a: "Use Farrah Fawcett hairspray" },
+                { q: "What does Lucas's sister Erica love to drink?", a: "Syrup" },
+                { q: "What is the name of the new mall in Season 3?", a: "Starcourt Mall" },
+                { q: "Where does Steve work in Season 3?", a: "Scoops Ahoy" },
+                { q: "Who is Steve's coworker at the ice cream shop?", a: "Robin Buckley" },
+                { q: "Who is the lifeguard that Billy kidnaps first?", a: "Heather Holloway" },
+                { q: "What is the mayor's name in Season 3?", a: "Mayor Kline" },
+                { q: "Who is Dustin's girlfriend from Camp Know Where?", a: "Suzie" },
+                { q: "What song do Dustin and Suzie sing together over the radio?", a: "The NeverEnding Story theme" },
+                { q: "What is the name of the Russian scientist Hopper and Joyce kidnap?", a: "Alexei" },
+                { q: "What does Alexei demand to drink before talking?", a: "A cherry Slurpee" },
+                { q: "What nickname does Hopper give the Russian assassin?", a: "Terminator" },
+                { q: "What phrase does Eleven use to break up with Mike?", a: "I dump your ass" },
+                { q: "What comic book superhero does Max introduce Eleven to?", a: "Wonder Woman" },
+                { q: "What is the name of the monster made of melted people in Season 3?", a: "The Meat Flayer" },
+                { q: "Where does the final battle of Season 3 take place?", a: "Starcourt Mall" },
+                { q: "Who sacrifices themselves to close the gate at the end of Season 3?", a: "Billy Hargrove" },
+                { q: "Who is the main villain in Season 4?", a: "Vecna" },
+                { q: "What is Vecna's real identity?", a: "Henry Creel" },
+                { q: "What is the name of the D&D club at Hawkins High?", a: "The Hellfire Club" },
+                { q: "Who is the leader of the Hellfire Club?", a: "Eddie Munson" },
+                { q: "Who is the first victim of Vecna in Season 4?", a: "Chrissy Cunningham" },
+                { q: "What song saves Max from Vecna?", a: "Running Up That Hill by Kate Bush" },
+                { q: "What item does Vecna's victims see before they die?", a: "A grandfather clock" },
+                { q: "What state do the Byers and Eleven move to in Season 4?", a: "California" },
+                { q: "What is the name of the pizza place where Argyle works?", a: "Surfer Boy Pizza" },
+                { q: "What is the secret underground project to restore Eleven's powers called?", a: "The Nina Project" },
+                { q: "Where is Hopper held prisoner in Season 4?", a: "Kamchatka, Russia" },
+                { q: "What is the name of the corrupt Russian guard who helps Hopper?", a: "Dmitri or Enzo" },
+                { q: "Who is the eccentric pilot that betrays Joyce and Murray?", a: "Yuri" },
+                { q: "What do the Russian prisoners have to fight in the pit?", a: "A Demogorgon" },
+                { q: "What song does Eddie Munson play on guitar in the Upside Down?", a: "Master of Puppets by Metallica" },
+                { q: "What is the name of Eddie's band?", a: "Corroded Coffin" },
+                { q: "Who is the captain of the Hawkins High basketball team?", a: "Jason Carver" },
+                { q: "What is the name of the asylum where Victor Creel is kept?", a: "Pennhurst Asylum" },
+                { q: "What is the name of the video store where Steve and Robin work?", a: "Family Video" },
+                { q: "How many chimes signify Vecna opening a gate?", a: "Four" },
+                { q: "What does the Upside Down look like it's covered in?", a: "Vines and spores" },
+                { q: "What is the name of Dustin's ham radio tower?", a: "Cerebro" },
+                { q: "What brand of pudding does Eleven eat at the middle school?", a: "Snack Pack" },
+                { q: "What phrase does Eleven repeat about keeping secrets?", a: "Friends don't lie" },
+                { q: "What weapon does Steve use to fight the Demogorgon?", a: "A baseball bat with nails" },
+                { q: "What is the name of the newspaper Nancy and Jonathan work for?", a: "The Hawkins Post" },
+                { q: "What color is the dress Eleven wears in Season 1?", a: "Pink" },
+                { q: "Who is Will's older brother?", a: "Jonathan Byers" },
+                { q: "What does Joyce paint her house with to track the tunnels in S2?", a: "Will's drawings" },
+                { q: "What animals are found dying in the pumpkin patches in S2?", a: "Crows" },
+                { q: "What code name does Mike use for Eleven over the walkie-talkie?", a: "El" },
+                { q: "Who punches Steve in the face in an alley in Season 1?", a: "Jonathan" },
+                { q: "What does Billy drive?", a: "A blue Camaro" },
+                { q: "What is Billy's relation to Max?", a: "Stepbrother" },
+                { q: "Who translates the Russian transmission in Season 3?", a: "Robin" },
+                { q: "What is the first sentence of the code Robin cracks?", a: "The week is long" },
+                { q: "What is Eleven's favorite television genre?", a: "Soap operas" },
+                { q: "What kind of pet does Dart initially appear to be?", a: "A slug or polliwog" },
+                { q: "Who is the first person to call the creatures 'Demodogs'?", a: "Dustin" },
+                { q: "What candy is Dart attracted to?", a: "3 Musketeers" },
+                { q: "What is the name of the pool where Billy works?", a: "Hawkins Community Pool" },
+                { q: "What was Bob Newby's high school nickname?", a: "Bob the Brain" },
+                { q: "How does Bob die?", a: "Eaten by Demodogs" },
+                { q: "Who teaches Eleven how to use her anger to control her powers?", a: "Kali or Eight" },
+                { q: "What does the Shadow Monster hate?", a: "Heat and Fire" },
+                { q: "What does Hopper leave for Eleven in the woods in Season 2?", a: "Eggos" },
+                { q: "What is the name of the Russian base under the mall?", a: "Starcourt underground" },
+                { q: "Who says 'You can't spell America without Erica'?", a: "Erica Sinclair" },
+                { q: "What weapon does Lucas use frequently?", a: "A wrist-rocket slingshot" },
+                { q: "What is Eleven's birth mother's name?", a: "Terry Ives" },
+                { q: "What is one of the words Terry Ives repeats on a loop?", a: "Sunflower" },
+                { q: "What does Dr. Brenner want Eleven to spy on originally?", a: "Russian spies" },
+                { q: "What type of tank does Mr. Clarke tell the boys how to build?", a: "A sensory deprivation tank" },
+                { q: "What does Dustin keep Dart in initially?", a: "A turtle tank" },
+                { q: "What is the name of the farm where the rotten pumpkins are found?", a: "Merrill's Farm" },
+                { q: "What insult does Eleven learn from Mike?", a: "Mouthbreather" },
+                { q: "What is the name of the middle school the boys attend?", a: "Hawkins Middle School" },
+                { q: "What is the name of the high school the older kids attend?", a: "Hawkins High School" },
+                { q: "What animal does Vecna use to symbolize his presence?", a: "Black widow spiders" },
+                { q: "Who was Victor Creel played by?", a: "Robert Englund" },
+                { q: "What is the name of the counselor at Hawkins High?", a: "Ms. Kelly" },
+                { q: "What does Max give to her friends before going to the cemetery?", a: "Letters" },
+                { q: "Who does Robin have a crush on in Season 4?", a: "Vickie" },
+                { q: "What instrument does Vickie play in the marching band?", a: "Clarinet" },
+                { q: "What country is Kamchatka located in?", a: "Russia" },
+                { q: "What vehicle do Joyce and Murray crash in Russia?", a: "A plane" },
+                { q: "What weapon does Hopper use to kill the Demogorgon in the prison?", a: "A sword" },
+                { q: "Who is the leader of the California bullies that target Eleven?", a: "Angela" },
+                { q: "What does Eleven hit Angela with at the roller rink?", a: "A roller skate" },
+                { q: "What is the name of the roller rink in California?", a: "Rink-O-Mania" },
+                { q: "Who drives the Surfer Boy Pizza van?", a: "Argyle" },
+                { q: "What does Argyle put on his pizza that causes a debate?", a: "Pineapple" },
+                { q: "What does Eleven build a diorama of for her school project?", a: "Hopper's cabin" },
+                { q: "Who fixes the Cerebro radio using a pen?", a: "Suzie" },
+                { q: "Who does Argyle fall in love with in Salt Lake City?", a: "Eden" },
+                { q: "What does Will paint for Mike in Season 4?", a: "A picture of their D&D party fighting a dragon" },
+                { q: "Who removes the Mind Flayer piece from Eleven's leg?", a: "Eleven" },
+                { q: "What fireworks do the kids use to fight the Mind Flayer?", a: "Roman Candles" },
+                { q: "What is the password to get into the secret Russian elevator?", a: "The code Robin cracked" },
+                { q: "What color is the toxic substance powering the Russian machine?", a: "Green" },
+                { q: "What is the name of the mall's clothing store where Eleven and Max shop?", a: "The Gap" },
+                { q: "What movie is playing at the Starcourt Mall theater when the kids sneak in?", a: "Back to the Future" },
+                { q: "What is the password to Castle Byers?", a: "Radagast" },
+                { q: "Who does Dustin dress up as for Ghostbusters?", a: "Ray Stantz" },
+                { q: "Who do Mike and Lucas both dress up as for Ghostbusters?", a: "Venkman" },
+                { q: "What candy does Dustin offer to Max in Season 2?", a: "3 Musketeers" },
+                { q: "What is the name of the company that owns the Hawkins lab?", a: "U.S. Department of Energy" },
+                { q: "Who does Barb tell Nancy to be careful of?", a: "Steve Harrington" },
+                { q: "What is the name of the police officer who works alongside Hopper?", a: "Officer Powell" },
+                { q: "What is Joyce's last name?", a: "Byers" },
+                { q: "What is the name of Nancy's younger sister?", a: "Holly" },
+                { q: "Who plays Eleven?", a: "Millie Bobby Brown" },
+                { q: "Who plays Chief Hopper?", a: "David Harbour" },
+                { q: "Who plays Joyce Byers?", a: "Winona Ryder" },
+                { q: "Who plays Mike Wheeler?", a: "Finn Wolfhard" },
+                { q: "Who plays Steve Harrington?", a: "Joe Keery" },
+                { q: "What year does Season 1 take place?", a: "1983" },
+                { q: "What year does Season 4 take place?", a: "1986" },
+                { q: "What road is Will's bike found on in the first episode?", a: "Mirkwood" }
+            ],
             solar: [
                 { q: "Which planet is closest to the Sun?", a: "Mercury" }, { q: "What is the largest planet in our solar system?", a: "Jupiter" },
                 { q: "Which planet is known as the Red Planet?", a: "Mars" }, { q: "What planet is famous for its beautiful rings?", a: "Saturn" },
@@ -293,6 +447,12 @@
             });
         });
 
+        // --- Background Music Setup ---
+        // Replace this URL with a link to an actual Stranger Things MP3 or a local file (e.g., 'stranger-things-theme.mp3')
+        const strangerMusic = new Audio('https://cdn.pixabay.com/download/audio/2022/05/16/audio_27ed1db721.mp3?filename=synthwave-80s-110045.mp3'); 
+        strangerMusic.loop = true;
+        strangerMusic.volume = 0.15; // Set volume to 15%
+
         // --- App State ---
         let activeCategory = ''; 
         let quizQueue = [];
@@ -314,6 +474,10 @@
         }
 
         function openQuiz(category, title, themeColor) {
+            // Stop music if navigating while playing
+            strangerMusic.pause();
+            strangerMusic.currentTime = 0;
+            
             activeCategory = category;
             
             const titleEl = document.getElementById('quiz-title');
@@ -360,6 +524,10 @@
             currentPhase = 'idle';
             clearTimeout(timeoutId);
             window.speechSynthesis.cancel();
+            
+            strangerMusic.pause();
+            strangerMusic.currentTime = 0;
+            
             resetQuizUI();
         }
 
@@ -373,9 +541,18 @@
                 pauseBtn.innerText = 'Resume';
                 clearTimeout(timeoutId);
                 window.speechSynthesis.pause();
+                strangerMusic.pause();
             } else {
                 pauseBtn.innerText = 'Pause';
                 window.speechSynthesis.resume();
+                
+                if (activeCategory === 'stranger' || activeCategory === 'surprise') {
+                     // In 'surprise', you could add logic to only play during stranger questions, 
+                     // but for simplicity we'll just trigger it if the whole category is stranger.
+                     if (activeCategory === 'stranger') {
+                         strangerMusic.play().catch(e => console.log("Audio play failed:", e));
+                     }
+                }
                 
                 // If we paused during a quiet waiting period, restart that timer
                 if (currentPhase === 'waitingAnswer') {
@@ -392,11 +569,15 @@
             if (activeCategory === 'surprise') {
                 let allQuestions = [].concat(
                     db.states, db.hp, db.solar, 
-                    db.percentage, db.mathFacts, db.time, db.geo
+                    db.percentage, db.mathFacts, db.time, db.geo, db.stranger
                 );
                 quizQueue = shuffleArray(allQuestions).slice(0, 50);
             } else {
                 quizQueue = shuffleArray(db[activeCategory]);
+            }
+
+            if (activeCategory === 'stranger') {
+                strangerMusic.play().catch(e => console.log("Audio play failed. User interaction may be required by the browser.", e));
             }
 
             currentIndex = 0;
@@ -421,6 +602,10 @@
                 document.getElementById('pause-btn').style.display = "none";
                 isRunning = false;
                 currentPhase = 'idle';
+                
+                strangerMusic.pause();
+                strangerMusic.currentTime = 0;
+                
                 return;
             }
 
@@ -506,9 +691,10 @@
         }
 
         // --- Event Listeners ---
-        document.getElementById('btn-surprise').addEventListener('click', () => openQuiz('surprise', '🎉 Surprise Me! 🎉', 'var(--surprise)'));
+        document.getElementById('btn-surprise').addEventListener('click', () => openQuiz('surprise', '✨ Surprise Me! ✨', 'var(--surprise)'));
         document.getElementById('btn-states').addEventListener('click', () => openQuiz('states', 'US States & Capitals', 'var(--primary)'));
         document.getElementById('btn-hp').addEventListener('click', () => openQuiz('hp', 'Harry Potter Trivia', 'var(--hp-primary)'));
+        document.getElementById('btn-stranger').addEventListener('click', () => openQuiz('stranger', 'Stranger Things Trivia', 'var(--stranger)'));
         document.getElementById('btn-solar').addEventListener('click', () => openQuiz('solar', 'Solar System', 'var(--solar)'));
         document.getElementById('btn-math-perc').addEventListener('click', () => openQuiz('percentage', 'Simple Percentages', 'var(--math)'));
         document.getElementById('btn-math-facts').addEventListener('click', () => openQuiz('mathFacts', 'Math Facts', 'var(--math)'));

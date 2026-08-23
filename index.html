@@ -3,7 +3,21 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Educational Flashcards</title>
+    <title>Educational Flashcards & Math Quiz</title>
+
+    <!-- MathJax 3 for Professional Math & LaTeX Rendering -->
+    <script>
+        window.MathJax = {
+            tex: {
+                inlineMath: [['$', '$'], ['\\(', '\\)']]
+            },
+            svg: {
+                fontCache: 'global'
+            }
+        };
+    </script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+
     <style>
         :root {
             --primary: #2563eb;
@@ -147,6 +161,7 @@
             font-size: 16px;
             font-weight: 500;
             background: #ffffff;
+            line-height: 1.5;
         }
         .mcq-option:hover {
             border-color: #cbd5e1;
@@ -157,6 +172,7 @@
             transform: scale(1.25);
             accent-color: var(--primary);
             cursor: pointer;
+            flex-shrink: 0;
         }
         .mcq-option.selected {
             border-color: var(--primary);
@@ -249,7 +265,7 @@
         <div id="mcq-view" class="view">
             <h1 id="mcq-title" style="color: var(--math);">Math Quiz</h1>
             <div class="progress" id="mcq-progress"></div>
-            <div id="mcq-question" style="font-size: 22px; font-weight: bold; margin: 20px 0 15px; min-height: 60px; line-height: 1.4;"></div>
+            <div id="mcq-question" style="font-size: 21px; font-weight: bold; margin: 20px 0 15px; min-height: 60px; line-height: 1.6;"></div>
             
             <div id="mcq-options" class="mcq-options-container"></div>
             <div id="mcq-feedback"></div>
@@ -530,57 +546,57 @@
                 { q: "Which continent is the United States located in?", a: "North America" }, { q: "Which continent is the country of Peru located in?", a: "South America" },
                 { q: "Which continent has the most countries?", a: "Africa" }, { q: "Which continent is the country of Spain located in?", a: "Europe" }
             ],
-            // Algebra Quiz - August 23, 2026 Set (Advanced Challenge)
+            // Algebra Quiz - August 23, 2026 Set (MathJax formatted)
             mathToday: [
                 {
-                    q: "Evaluate (2x² - y²) / (z + 1) + 4(x - y) when x = 5, y = 3, and z = 7.",
-                    options: ["12.125", "13.125", "11.75", "14.5"],
-                    correct: 1 // (50 - 9)/8 + 4(2) = 41/8 + 8 = 5.125 + 8 = 13.125
-                },
-                {
-                    q: "Simplify completely: (3/4)(12x - 16) - (2/3)(9x - 15).",
-                    options: ["3x - 2", "3x - 22", "15x - 2", "3x + 2"],
-                    correct: 0 // (9x - 12) - (6x - 10) = 3x - 2
-                },
-                {
-                    q: "Simplify the multi-variable expression: 3.8a - 2.4b + 5.1 - 1.9a + 4.6b - 8.3.",
-                    options: ["1.9a + 2.2b - 3.2", "1.9a - 2.2b + 3.2", "2.1a + 2.2b - 3.2", "1.9a + 7.0b - 3.2"],
-                    correct: 0
-                },
-                {
-                    q: "Solve the two-step equation: 3.5m - 4.2 = 13.3.",
-                    options: ["m = 4.6", "m = 5.0", "m = 5.2", "m = 4.8"],
-                    correct: 1 // 3.5m = 17.5 -> m = 5
-                },
-                {
-                    q: "Solve the fractional equation: (4/7)p + 5 = 21.",
-                    options: ["p = 28", "p = 24", "p = 32", "p = 35"],
-                    correct: 0 // (4/7)p = 16 -> p = 16 * (7/4) = 28
-                },
-                {
-                    q: "A summer recreation camp charges a flat $45 registration fee plus $18.50 per day. If a family paid a total of $174.50, how many days (d) did their child attend?",
-                    options: ["6 days", "7 days", "8 days", "9 days"],
-                    correct: 1 // 18.5d + 45 = 174.5 -> 18.5d = 129.5 -> d = 7
-                },
-                {
-                    q: "An online bookstore charges $6.50 flat shipping. Paperbacks cost $8.25 each. If Maya has a maximum budget of $60, which inequality models the number of books (b) she can purchase?",
-                    options: ["8.25b + 6.50 < 60", "8.25b + 6.50 ≤ 60", "6.50b + 8.25 ≤ 60", "8.25b - 6.50 ≤ 60"],
+                    q: "Evaluate $\\frac{2x^2 - y^2}{z + 1} + 4(x - y)$ when $x = 5$, $y = 3$, and $z = 7$.",
+                    options: ["$12.125$", "$13.125$", "$11.75$", "$14.5$"],
                     correct: 1
                 },
                 {
-                    q: "Factor the expression 42x - 70y + 28 completely by extracting the Greatest Common Factor (GCF).",
-                    options: ["7(6x - 10y + 4)", "14(3x - 5y + 2)", "2(21x - 35y + 14)", "28(1.5x - 2.5y + 1)"],
-                    correct: 1 // GCF is 14
+                    q: "Simplify completely: $\\frac{3}{4}(12x - 16) - \\frac{2}{3}(9x - 15)$.",
+                    options: ["$3x - 2$", "$3x - 22$", "$15x - 2$", "$3x + 2$"],
+                    correct: 0
                 },
                 {
-                    q: "Which expression represents '5 times the square of a number n, decreased by one-third of the sum of n and 6'?",
-                    options: ["(5n)² - (1/3)(n + 6)", "5n² - (1/3)n + 6", "5n² - (1/3)(n + 6)", "5(n² - 1/3) + 6"],
+                    q: "Simplify the multi-variable expression: $3.8a - 2.4b + 5.1 - 1.9a + 4.6b - 8.3$.",
+                    options: ["$1.9a + 2.2b - 3.2$", "$1.9a - 2.2b + 3.2$", "$2.1a + 2.2b - 3.2$", "$1.9a + 7.0b - 3.2$"],
+                    correct: 0
+                },
+                {
+                    q: "Solve the two-step equation: $3.5m - 4.2 = 13.3$.",
+                    options: ["$m = 4.6$", "$m = 5.0$", "$m = 5.2$", "$m = 4.8$"],
+                    correct: 1
+                },
+                {
+                    q: "Solve the fractional equation: $\\frac{4}{7}p + 5 = 21$.",
+                    options: ["$p = 28$", "$p = 24$", "$p = 32$", "$p = 35$"],
+                    correct: 0
+                },
+                {
+                    q: "A summer recreation camp charges a flat $\$45$ registration fee plus $\$18.50$ per day. If a family paid a total of $\$174.50$, how many days ($d$) did their child attend?",
+                    options: ["$6$ days", "$7$ days", "$8$ days", "$9$ days"],
+                    correct: 1
+                },
+                {
+                    q: "An online bookstore charges $\$6.50$ flat shipping. Paperbacks cost $\$8.25$ each. If Maya has a maximum budget of $\$60$, which inequality models the number of books ($b$) she can purchase?",
+                    options: ["$8.25b + 6.50 < 60$", "$8.25b + 6.50 \\le 60$", "$6.50b + 8.25 \\le 60$", "$8.25b - 6.50 \\le 60$"],
+                    correct: 1
+                },
+                {
+                    q: "Factor the expression $42x - 70y + 28$ completely by extracting the Greatest Common Factor (GCF).",
+                    options: ["$7(6x - 10y + 4)$", "$14(3x - 5y + 2)$", "$2(21x - 35y + 14)$", "$28(1.5x - 2.5y + 1)$"],
+                    correct: 1
+                },
+                {
+                    q: "Which expression represents: <em>'5 times the square of a number $n$, decreased by one-third of the sum of $n$ and 6'</em>?",
+                    options: ["$(5n)^2 - \\frac{1}{3}(n + 6)$", "$5n^2 - \\frac{1}{3}n + 6$", "$5n^2 - \\frac{1}{3}(n + 6)$", "$5(n^2 - \\frac{1}{3}) + 6$"],
                     correct: 2
                 },
                 {
-                    q: "Which of the following values is a solution to the inequality: 15 - (x / 2) ≤ 8?",
-                    options: ["x = 10", "x = 12", "x = 13", "x = 16"],
-                    correct: 3 // -x/2 <= -7 -> x/2 >= 7 -> x >= 14
+                    q: "Which of the following values is a solution to the inequality: $15 - \\frac{x}{2} \\le 8$?",
+                    options: ["$x = 10$", "$x = 12$", "$x = 13$", "$x = 16$"],
+                    correct: 3
                 }
             ]
         };
@@ -614,6 +630,13 @@
         let hasCheckedCorrectly = false;
         let hasAttemptedWrong = false;
         let currentActiveDay = '';
+
+        // Helper to trigger MathJax rendering
+        function renderMath() {
+            if (window.MathJax && window.MathJax.typesetPromise) {
+                window.MathJax.typesetPromise();
+            }
+        }
 
         // --- View Management ---
         function showView(viewId) {
@@ -833,8 +856,6 @@
             hasCheckedCorrectly = false;
             hasAttemptedWrong = false;
 
-            const checkBtn = document.getElementById('mcq-check-btn');
-            checkBtn.onclick = handleMCQCheck;
             showView('mcq-view');
             renderMCQQuestion();
         }
@@ -845,19 +866,17 @@
             const qData = mcqQuestions[mcqCurrentIndex];
             
             document.getElementById('mcq-progress').innerText = `Question ${mcqCurrentIndex + 1} of ${mcqQuestions.length}`;
-            document.getElementById('mcq-question').innerText = qData.q;
+            document.getElementById('mcq-question').innerHTML = qData.q;
             document.getElementById('mcq-feedback').innerText = "";
             document.getElementById('mcq-feedback').className = "";
             
             const checkBtn = document.getElementById('mcq-check-btn');
             checkBtn.innerText = "Check Answer";
             checkBtn.style.display = "inline-block";
-            checkBtn.onclick = handleMCQCheck;
 
             const nextBtn = document.getElementById('mcq-next-btn');
             nextBtn.style.display = "none";
             nextBtn.innerText = (mcqCurrentIndex === mcqQuestions.length - 1) ? "Finish Quiz →" : "Next Question →";
-            nextBtn.onclick = advanceMCQ;
 
             const optionsContainer = document.getElementById('mcq-options');
             optionsContainer.innerHTML = "";
@@ -886,6 +905,9 @@
 
                 optionsContainer.appendChild(label);
             });
+
+            // Typeset Math via MathJax
+            renderMath();
         }
 
         function advanceMCQ() {
@@ -905,7 +927,10 @@
                 const checkBtn = document.getElementById('mcq-check-btn');
                 checkBtn.style.display = "inline-block";
                 checkBtn.innerText = "Restart Quiz";
-                checkBtn.onclick = () => startMathQuiz(currentActiveDay);
+                checkBtn.onclick = () => {
+                    checkBtn.onclick = handleMCQCheck;
+                    startMathQuiz(currentActiveDay);
+                };
             }
         }
 
@@ -975,11 +1000,12 @@
         document.getElementById('math-back-btn').addEventListener('click', () => showView('home-view'));
         document.getElementById('btn-math-today').addEventListener('click', () => startMathQuiz('mathToday'));
 
-        // Controls
+        // Flashcards Controls
         document.getElementById('start-btn').addEventListener('click', startQuiz);
         document.getElementById('pause-btn').addEventListener('click', togglePause);
         document.getElementById('home-btn').addEventListener('click', goHome);
         
+        // MCQ Controls
         document.getElementById('mcq-check-btn').addEventListener('click', handleMCQCheck);
         document.getElementById('mcq-next-btn').addEventListener('click', advanceMCQ);
         document.getElementById('mcq-home-btn').addEventListener('click', goHome);

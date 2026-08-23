@@ -191,6 +191,7 @@
 <body>
 
     <div class="container">
+        <!-- Home View -->
         <div id="home-view" class="view active">
             <h1>Knowledge Flashcards</h1>
             <p>Choose a topic to begin learning.</p>
@@ -215,18 +216,21 @@
             </div>
         </div>
 
+        <!-- Math Dates Submenu View -->
         <div id="math-days-view" class="view">
-            <h1 style="color: var(--math);">Math Quiz Days</h1>
-            <p>Select a day to practice your algebra skills.</p>
+            <h1 style="color: var(--math);">Math Quiz Practice</h1>
+            <p>Select a session to test your algebra problem-solving skills.</p>
             <div class="menu-grid">
-                <button id="btn-math-sunday" class="theme-math">Sunday Quiz</button>
-                <button id="btn-math-tuesday" class="theme-math">Tuesday Quiz</button>
+                <div class="menu-full-width">
+                    <button id="btn-math-today" class="theme-math">August 23, 2026 - Algebra Challenge</button>
+                </div>
             </div>
             <div style="margin-top: 25px;">
                 <button class="secondary" id="math-back-btn">Back to Menu</button>
             </div>
         </div>
 
+        <!-- Flashcards Quiz View (Standard) -->
         <div id="quiz-view" class="view">
             <h1 id="quiz-title">Quiz</h1>
             <div class="progress" id="progress-display"></div>
@@ -241,6 +245,7 @@
             </div>
         </div>
 
+        <!-- Multiple Choice Interactive View (Math Quiz) -->
         <div id="mcq-view" class="view">
             <h1 id="mcq-title" style="color: var(--math);">Math Quiz</h1>
             <div class="progress" id="mcq-progress"></div>
@@ -525,110 +530,57 @@
                 { q: "Which continent is the United States located in?", a: "North America" }, { q: "Which continent is the country of Peru located in?", a: "South America" },
                 { q: "Which continent has the most countries?", a: "Africa" }, { q: "Which continent is the country of Spain located in?", a: "Europe" }
             ],
-            // Algebra Quiz (Sunday Set)
-            mathSunday: [
+            // Algebra Quiz - August 23, 2026 Set (Advanced Challenge)
+            mathToday: [
                 {
-                    q: "Evaluate the expression 3x² - 2(y + 1) when x = 4 and y = 5.",
-                    options: ["34", "36", "42", "40"],
-                    correct: 1
+                    q: "Evaluate (2x² - y²) / (z + 1) + 4(x - y) when x = 5, y = 3, and z = 7.",
+                    options: ["12.125", "13.125", "11.75", "14.5"],
+                    correct: 1 // (50 - 9)/8 + 4(2) = 41/8 + 8 = 5.125 + 8 = 13.125
                 },
                 {
-                    q: "Expand and simplify the expression: (1/3)(9a + 12) - 2a.",
-                    options: ["a + 4", "5a + 4", "a + 12", "3a + 4"],
+                    q: "Simplify completely: (3/4)(12x - 16) - (2/3)(9x - 15).",
+                    options: ["3x - 2", "3x - 22", "15x - 2", "3x + 2"],
+                    correct: 0 // (9x - 12) - (6x - 10) = 3x - 2
+                },
+                {
+                    q: "Simplify the multi-variable expression: 3.8a - 2.4b + 5.1 - 1.9a + 4.6b - 8.3.",
+                    options: ["1.9a + 2.2b - 3.2", "1.9a - 2.2b + 3.2", "2.1a + 2.2b - 3.2", "1.9a + 7.0b - 3.2"],
                     correct: 0
                 },
                 {
-                    q: "Simplify the expression: 4.5m + 3.2 - 1.8m + 0.9.",
-                    options: ["6.3m + 4.1", "2.7m + 2.3", "2.7m + 4.1", "3.7m + 4.1"],
+                    q: "Solve the two-step equation: 3.5m - 4.2 = 13.3.",
+                    options: ["m = 4.6", "m = 5.0", "m = 5.2", "m = 4.8"],
+                    correct: 1 // 3.5m = 17.5 -> m = 5
+                },
+                {
+                    q: "Solve the fractional equation: (4/7)p + 5 = 21.",
+                    options: ["p = 28", "p = 24", "p = 32", "p = 35"],
+                    correct: 0 // (4/7)p = 16 -> p = 16 * (7/4) = 28
+                },
+                {
+                    q: "A summer recreation camp charges a flat $45 registration fee plus $18.50 per day. If a family paid a total of $174.50, how many days (d) did their child attend?",
+                    options: ["6 days", "7 days", "8 days", "9 days"],
+                    correct: 1 // 18.5d + 45 = 174.5 -> 18.5d = 129.5 -> d = 7
+                },
+                {
+                    q: "An online bookstore charges $6.50 flat shipping. Paperbacks cost $8.25 each. If Maya has a maximum budget of $60, which inequality models the number of books (b) she can purchase?",
+                    options: ["8.25b + 6.50 < 60", "8.25b + 6.50 ≤ 60", "6.50b + 8.25 ≤ 60", "8.25b - 6.50 ≤ 60"],
+                    correct: 1
+                },
+                {
+                    q: "Factor the expression 42x - 70y + 28 completely by extracting the Greatest Common Factor (GCF).",
+                    options: ["7(6x - 10y + 4)", "14(3x - 5y + 2)", "2(21x - 35y + 14)", "28(1.5x - 2.5y + 1)"],
+                    correct: 1 // GCF is 14
+                },
+                {
+                    q: "Which expression represents '5 times the square of a number n, decreased by one-third of the sum of n and 6'?",
+                    options: ["(5n)² - (1/3)(n + 6)", "5n² - (1/3)n + 6", "5n² - (1/3)(n + 6)", "5(n² - 1/3) + 6"],
                     correct: 2
                 },
                 {
-                    q: "Solve for k: 1.5k = 10.5.",
-                    options: ["k = 6", "k = 7", "k = 8.5", "k = 9"],
-                    correct: 1
-                },
-                {
-                    q: "Solve for w: (3/4)w = 18.",
-                    options: ["w = 24", "w = 13.5", "w = 27", "w = 22"],
-                    correct: 0
-                },
-                {
-                    q: "Liam bought 4 identical binders and a backpack for $18. The total cost was $46. Which equation finds the cost of one binder (b)?",
-                    options: ["4b - 18 = 46 → b = $16", "18b + 4 = 46 → b = $2.33", "4b + 18 = 46 → b = $7", "4(b + 18) = 46 → b = $6.50"],
-                    correct: 2
-                },
-                {
-                    q: "An elevator can hold at most 1,200 lbs. If cargo inside is 450 lbs and p is passenger weight, which inequality represents this?",
-                    options: ["p + 450 ≥ 1,200", "p + 450 ≤ 1,200", "p + 450 < 1,200", "p - 450 ≤ 1,200"],
-                    correct: 1
-                },
-                {
-                    q: "Which expression is equivalent to 24x + 36?",
-                    options: ["6(4x + 6)", "12(2x + 3)", "4(6x + 8)", "Both A and B are equivalent, with B factored completely"],
-                    correct: 3
-                },
-                {
-                    q: "Which algebraic expression represents 'twice the sum of a number n and 5, decreased by 9'?",
-                    options: ["2n + 5 - 9", "2(n + 5) - 9", "2(n - 9) + 5", "(n + 5)/2 - 9"],
-                    correct: 1
-                },
-                {
-                    q: "Which of the following values makes the inequality (x / 3) + 4 > 9 true?",
-                    options: ["x = 12", "x = 15", "x = 18", "x = 14"],
-                    correct: 2
-                }
-            ],
-            // Algebra Quiz (Tuesday Set)
-            mathTuesday: [
-                {
-                    q: "Evaluate the expression 4x² - 3(y - 2) when x = 3 and y = 7.",
-                    options: ["21", "27", "33", "18"],
-                    correct: 0
-                },
-                {
-                    q: "Expand and simplify the expression: (1/2)(8x - 14) + 5x.",
-                    options: ["9x - 14", "9x - 7", "4x - 7", "13x - 7"],
-                    correct: 1
-                },
-                {
-                    q: "Simplify the expression: 6.4a + 5.1 - 2.9a + 1.8.",
-                    options: ["3.5a + 6.9", "4.5a + 6.9", "3.5a + 3.3", "9.3a + 6.9"],
-                    correct: 0
-                },
-                {
-                    q: "Solve for n: 2.4n = 14.4.",
-                    options: ["n = 5.5", "n = 6", "n = 7", "n = 6.2"],
-                    correct: 1
-                },
-                {
-                    q: "Solve for y: (2/5)y = 16.",
-                    options: ["y = 32", "y = 35", "y = 40", "y = 45"],
-                    correct: 2
-                },
-                {
-                    q: "A school club bought 6 packs of markers and a storage bin for $14. The total cost was $50. Which equation finds the cost of one pack (m)?",
-                    options: ["6m + 14 = 50 → m = $6", "6m - 14 = 50 → m = $10.67", "14m + 6 = 50 → m = $3.14", "6(m + 14) = 50 → m = $4"],
-                    correct: 0
-                },
-                {
-                    q: "A delivery truck can carry at most 2,500 lbs. It is loaded with 800 lbs. If w is the added pallet weight, which inequality models this?",
-                    options: ["w + 800 < 2,500", "w + 800 ≥ 2,500", "w + 800 ≤ 2,500", "w - 800 ≤ 2,500"],
-                    correct: 2
-                },
-                {
-                    q: "Which expression is equivalent to 18x + 42?",
-                    options: ["3(6x + 14)", "6(3x + 7)", "2(9x + 21)", "All of the above are equivalent, with B factored completely"],
-                    correct: 3
-                },
-                {
-                    q: "Which algebraic expression represents 'three times the difference of a number k and 4, increased by 8'?",
-                    options: ["3k - 4 + 8", "3(k - 4) + 8", "3(k + 4) - 8", "(k - 4)/3 + 8"],
-                    correct: 1
-                },
-                {
-                    q: "Which of the following values makes the inequality (y / 4) + 6 > 11 true?",
-                    options: ["y = 16", "y = 20", "y = 18", "y = 24"],
-                    correct: 3
+                    q: "Which of the following values is a solution to the inequality: 15 - (x / 2) ≤ 8?",
+                    options: ["x = 10", "x = 12", "x = 13", "x = 16"],
+                    correct: 3 // -x/2 <= -7 -> x/2 >= 7 -> x >= 14
                 }
             ]
         };
@@ -980,7 +932,6 @@
                 feedbackEl.innerText = "✓ Correct!";
                 feedbackEl.className = "feedback-correct";
 
-                // Highlight correct selection
                 document.querySelectorAll('.mcq-option').forEach(el => {
                     el.classList.remove('option-incorrect');
                 });
@@ -991,20 +942,19 @@
                 
                 checkBtn.style.display = "none";
                 nextBtn.style.display = "inline-block";
-                nextBtn.className = "theme-math"; // Primary action style
+                nextBtn.className = "theme-math";
                 nextBtn.innerText = (mcqCurrentIndex === mcqQuestions.length - 1) ? "View Results →" : "Next Question →";
             } else {
                 hasAttemptedWrong = true;
                 feedbackEl.innerText = "✗ Incorrect. Try another answer or move to next!";
                 feedbackEl.className = "feedback-incorrect";
                 
-                // Highlight incorrect choice visually while keeping choices clickable
                 const selectedLabel = document.getElementById(`mcq-option-label-${selectedVal}`);
                 if (selectedLabel) selectedLabel.classList.add('option-incorrect');
                 
                 checkBtn.innerText = "Check Answer";
                 nextBtn.style.display = "inline-block";
-                nextBtn.className = "secondary"; // Secondary skip style
+                nextBtn.className = "secondary";
                 nextBtn.innerText = (mcqCurrentIndex === mcqQuestions.length - 1) ? "Finish Quiz →" : "Skip to Next →";
             }
         }
@@ -1023,8 +973,7 @@
         // Math Quiz Navigation
         document.getElementById('btn-math-quiz').addEventListener('click', () => showView('math-days-view'));
         document.getElementById('math-back-btn').addEventListener('click', () => showView('home-view'));
-        document.getElementById('btn-math-sunday').addEventListener('click', () => startMathQuiz('mathSunday'));
-        document.getElementById('btn-math-tuesday').addEventListener('click', () => startMathQuiz('mathTuesday'));
+        document.getElementById('btn-math-today').addEventListener('click', () => startMathQuiz('mathToday'));
 
         // Controls
         document.getElementById('start-btn').addEventListener('click', startQuiz);
